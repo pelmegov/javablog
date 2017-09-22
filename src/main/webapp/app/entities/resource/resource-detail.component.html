@@ -1,0 +1,41 @@
+
+<div *ngIf="resource">
+    <h2><span jhiTranslate="javablogApp.resource.detail.title">Resource</span> {{resource.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="javablogApp.resource.link">Link</span></dt>
+        <dd>
+            <span>{{resource.link}}</span>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.resource.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'javablogApp.ResourceType.' + resource.type}}">{{resource.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.resource.comment">Comment</span></dt>
+        <dd>
+            <div *ngIf="resource.comment">
+                <a [routerLink]="['/comment', resource.comment?.id]">{{resource.comment?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.resource.post">Post</span></dt>
+        <dd>
+            <div *ngIf="resource.post">
+                <a [routerLink]="['/post', resource.post?.id]">{{resource.post?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'resource/'+ resource.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

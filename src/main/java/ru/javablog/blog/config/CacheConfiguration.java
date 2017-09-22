@@ -41,6 +41,16 @@ public class CacheConfiguration {
             cm.createCache(ru.javablog.blog.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(ru.javablog.blog.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(ru.javablog.blog.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Post.class.getName(), jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Post.class.getName() + ".comments", jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Post.class.getName() + ".resources", jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Post.class.getName() + ".tags", jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.PostSeo.class.getName(), jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Comment.class.getName(), jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Comment.class.getName() + ".resources", jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Tag.class.getName(), jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Tag.class.getName() + ".posts", jcacheConfiguration);
+            cm.createCache(ru.javablog.blog.domain.Resource.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

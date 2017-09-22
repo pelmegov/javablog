@@ -1,0 +1,58 @@
+<div>
+    <h2>
+        <span jhiTranslate="javablogApp.postSeo.home.title">Post Seos</span>
+        <button class="btn btn-primary float-right jh-create-entity create-post-seo" [routerLink]="['/', { outlets: { popup: ['post-seo-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="javablogApp.postSeo.home.createLabel">
+            Create new Post Seo
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="postSeos">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="javablogApp.postSeo.description">Description</span></th>
+            <th><span jhiTranslate="javablogApp.postSeo.keywords">Keywords</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let postSeo of postSeos ;trackBy: trackId">
+                <td><a [routerLink]="['../post-seo', postSeo.id ]">{{postSeo.id}}</a></td>
+                <td>{{postSeo.description}}</td>
+                <td>{{postSeo.keywords}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../post-seo', postSeo.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'post-seo/'+ postSeo.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'post-seo/'+ postSeo.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

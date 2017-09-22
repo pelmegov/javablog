@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "tag",
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 3,
+            "fieldValidateRulesMaxlength": 255
+        }
+    ],
+    "changelogDate": "20170922205255",
+    "entityTableName": "tag",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

@@ -1,0 +1,10 @@
+{
+    "javablogApp": {
+        "ResourceType" : {
+            "null": "",
+            "IMAGE": "IMAGE",
+            "VIDEO": "VIDEO",
+            "FILE": "FILE"
+        }
+    }
+}

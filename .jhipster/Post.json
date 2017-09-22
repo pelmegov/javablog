@@ -1,0 +1,71 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "postSeo",
+            "otherEntityName": "postSeo",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "image",
+            "otherEntityName": "resource",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "comment",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "author",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "resource",
+            "otherEntityName": "resource",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "tag",
+            "otherEntityName": "tag",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "post"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 3,
+            "fieldValidateRulesMaxlength": 255
+        },
+        {
+            "fieldName": "message",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170922205252",
+    "entityTableName": "post",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}
