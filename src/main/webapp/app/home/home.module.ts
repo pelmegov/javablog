@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { JavablogSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
+import { TagComponent } from '../entities/tag/tag.component';
 
 @NgModule({
     imports: [
@@ -11,11 +12,12 @@ import { HOME_ROUTE, HomeComponent } from './';
         RouterModule.forRoot([ HOME_ROUTE ], { useHash: true })
     ],
     declarations: [
-        HomeComponent,
+        HomeComponent
     ],
     entryComponents: [
     ],
     providers: [
+        TagComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

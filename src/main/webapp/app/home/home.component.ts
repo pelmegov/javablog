@@ -3,6 +3,8 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
+import { TagService } from '../entities/tag/tag.service';
+import { Tag } from '../entities/tag/tag.model';
 
 @Component({
     selector: 'jhi-home',
@@ -10,16 +12,17 @@ import { Account, LoginModalService, Principal } from '../shared';
     styleUrls: [
         'home.scss'
     ]
-
 })
 export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
+    tags: Tag[];
 
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private tagsService: TagService
     ) {
     }
 
@@ -28,6 +31,9 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+        this.tagsService.query('select *').subscribe((tags) => {
+            this.tags = tags.json;
+        });
     }
 
     registerAuthenticationSuccess() {
