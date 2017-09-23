@@ -35,13 +35,13 @@ public class Post implements Serializable {
     @Column(name = "message", nullable = false)
     private String message;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private PostSeo postSeo;
+    @NotNull
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @OneToOne
     @JoinColumn(unique = true)
-    private Resource image;
+    private PostSeo postSeo;
 
     @OneToMany(mappedBy = "post")
     @JsonIgnore
@@ -50,11 +50,6 @@ public class Post implements Serializable {
 
     @ManyToOne
     private User author;
-
-    @OneToMany(mappedBy = "post")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Resource> resources = new HashSet<>();
 
     @ManyToMany(mappedBy = "posts")
     @JsonIgnore
@@ -96,6 +91,19 @@ public class Post implements Serializable {
         this.message = message;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public Post image(String image) {
+        this.image = image;
+        return this;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public PostSeo getPostSeo() {
         return postSeo;
     }
@@ -107,19 +115,6 @@ public class Post implements Serializable {
 
     public void setPostSeo(PostSeo postSeo) {
         this.postSeo = postSeo;
-    }
-
-    public Resource getImage() {
-        return image;
-    }
-
-    public Post image(Resource resource) {
-        this.image = resource;
-        return this;
-    }
-
-    public void setImage(Resource resource) {
-        this.image = resource;
     }
 
     public Set<Comment> getComments() {
@@ -158,31 +153,6 @@ public class Post implements Serializable {
 
     public void setAuthor(User user) {
         this.author = user;
-    }
-
-    public Set<Resource> getResources() {
-        return resources;
-    }
-
-    public Post resources(Set<Resource> resources) {
-        this.resources = resources;
-        return this;
-    }
-
-    public Post addResource(Resource resource) {
-        this.resources.add(resource);
-        resource.setPost(this);
-        return this;
-    }
-
-    public Post removeResource(Resource resource) {
-        this.resources.remove(resource);
-        resource.setPost(null);
-        return this;
-    }
-
-    public void setResources(Set<Resource> resources) {
-        this.resources = resources;
     }
 
     public Set<Tag> getTags() {
@@ -237,6 +207,7 @@ public class Post implements Serializable {
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
             ", message='" + getMessage() + "'" +
+            ", image='" + getImage() + "'" +
             "}";
     }
 }

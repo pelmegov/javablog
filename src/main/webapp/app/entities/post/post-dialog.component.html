@@ -42,19 +42,23 @@
                 </small>
             </div>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="javablogApp.post.image" for="field_image">Image</label>
+            <input type="text" class="form-control" name="image" id="field_image"
+                [(ngModel)]="post.image" required />
+            <div [hidden]="!(editForm.controls.image?.dirty && editForm.controls.image?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.image?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="javablogApp.post.postSeo" for="field_postSeo">Post Seo</label>
             <select class="form-control" id="field_postSeo" name="postSeo" [(ngModel)]="post.postSeo">
                 <option [ngValue]="null"></option>
                 <option [ngValue]="postSeoOption.id === post.postSeo?.id ? post.postSeo : postSeoOption" *ngFor="let postSeoOption of postseos; trackBy: trackPostSeoById">{{postSeoOption.id}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="javablogApp.post.image" for="field_image">Image</label>
-            <select class="form-control" id="field_image" name="image" [(ngModel)]="post.image">
-                <option [ngValue]="null"></option>
-                <option [ngValue]="resourceOption.id === post.image?.id ? post.image : resourceOption" *ngFor="let resourceOption of images; trackBy: trackResourceById">{{resourceOption.id}}</option>
             </select>
         </div>
         <div class="form-group">

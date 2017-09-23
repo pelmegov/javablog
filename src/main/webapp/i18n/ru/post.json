@@ -17,11 +17,10 @@
             },
             "title": "Title",
             "message": "Message",
-            "postSeo": "Post Seo",
             "image": "Image",
+            "postSeo": "Post Seo",
             "comment": "Comment",
             "author": "Author",
-            "resource": "Resource",
             "tag": "Tag"
         }
     }

@@ -16,7 +16,6 @@
                 "title": "Comment"
             },
             "message": "Message",
-            "resource": "Resource",
             "author": "Author",
             "post": "Post"
         }

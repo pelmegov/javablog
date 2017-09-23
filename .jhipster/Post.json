@@ -10,14 +10,6 @@
             "otherEntityRelationshipName": "post"
         },
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "image",
-            "otherEntityName": "resource",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "post"
-        },
-        {
             "relationshipType": "one-to-many",
             "relationshipName": "comment",
             "otherEntityName": "comment",
@@ -28,12 +20,6 @@
             "relationshipName": "author",
             "otherEntityName": "user",
             "otherEntityField": "login"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "resource",
-            "otherEntityName": "resource",
-            "otherEntityRelationshipName": "post"
         },
         {
             "relationshipType": "many-to-many",
@@ -57,6 +43,13 @@
         },
         {
             "fieldName": "message",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "image",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"

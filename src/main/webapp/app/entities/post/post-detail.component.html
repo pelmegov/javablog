@@ -12,16 +12,14 @@
         <dd>
             <span>{{post.message}}</span>
         </dd>
+        <dt><span jhiTranslate="javablogApp.post.image">Image</span></dt>
+        <dd>
+            <span>{{post.image}}</span>
+        </dd>
         <dt><span jhiTranslate="javablogApp.post.postSeo">Post Seo</span></dt>
         <dd>
             <div *ngIf="post.postSeo">
                 <a [routerLink]="['/post-seo', post.postSeo?.id]">{{post.postSeo?.id}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="javablogApp.post.image">Image</span></dt>
-        <dd>
-            <div *ngIf="post.image">
-                <a [routerLink]="['/resource', post.image?.id]">{{post.image?.id}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="javablogApp.post.author">Author</span></dt>

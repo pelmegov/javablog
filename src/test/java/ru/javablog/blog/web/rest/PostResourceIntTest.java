@@ -43,6 +43,9 @@ public class PostResourceIntTest {
     private static final String DEFAULT_MESSAGE = "AAAAAAAAAA";
     private static final String UPDATED_MESSAGE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_IMAGE = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE = "BBBBBBBBBB";
+
     @Autowired
     private PostRepository postRepository;
 
@@ -81,7 +84,8 @@ public class PostResourceIntTest {
     public static Post createEntity(EntityManager em) {
         Post post = new Post()
             .title(DEFAULT_TITLE)
-            .message(DEFAULT_MESSAGE);
+            .message(DEFAULT_MESSAGE)
+            .image(DEFAULT_IMAGE);
         return post;
     }
 
@@ -107,6 +111,7 @@ public class PostResourceIntTest {
         Post testPost = postList.get(postList.size() - 1);
         assertThat(testPost.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testPost.getMessage()).isEqualTo(DEFAULT_MESSAGE);
+        assertThat(testPost.getImage()).isEqualTo(DEFAULT_IMAGE);
     }
 
     @Test
@@ -166,6 +171,24 @@ public class PostResourceIntTest {
 
     @Test
     @Transactional
+    public void checkImageIsRequired() throws Exception {
+        int databaseSizeBeforeTest = postRepository.findAll().size();
+        // set the field null
+        post.setImage(null);
+
+        // Create the Post, which fails.
+
+        restPostMockMvc.perform(post("/api/posts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(post)))
+            .andExpect(status().isBadRequest());
+
+        List<Post> postList = postRepository.findAll();
+        assertThat(postList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPosts() throws Exception {
         // Initialize the database
         postRepository.saveAndFlush(post);
@@ -176,7 +199,8 @@ public class PostResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
+            .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(DEFAULT_IMAGE.toString())));
     }
 
     @Test
@@ -191,7 +215,8 @@ public class PostResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(post.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE.toString()));
+            .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE.toString()))
+            .andExpect(jsonPath("$.image").value(DEFAULT_IMAGE.toString()));
     }
 
     @Test
@@ -213,7 +238,8 @@ public class PostResourceIntTest {
         Post updatedPost = postRepository.findOne(post.getId());
         updatedPost
             .title(UPDATED_TITLE)
-            .message(UPDATED_MESSAGE);
+            .message(UPDATED_MESSAGE)
+            .image(UPDATED_IMAGE);
 
         restPostMockMvc.perform(put("/api/posts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -226,6 +252,7 @@ public class PostResourceIntTest {
         Post testPost = postList.get(postList.size() - 1);
         assertThat(testPost.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testPost.getMessage()).isEqualTo(UPDATED_MESSAGE);
+        assertThat(testPost.getImage()).isEqualTo(UPDATED_IMAGE);
     }
 
     @Test

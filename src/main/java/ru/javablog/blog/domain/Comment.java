@@ -1,14 +1,11 @@
 package ru.javablog.blog.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -29,11 +26,6 @@ public class Comment implements Serializable {
     @NotNull
     @Column(name = "message", nullable = false)
     private String message;
-
-    @OneToMany(mappedBy = "comment")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Resource> resources = new HashSet<>();
 
     @ManyToOne
     private User author;
@@ -61,31 +53,6 @@ public class Comment implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Set<Resource> getResources() {
-        return resources;
-    }
-
-    public Comment resources(Set<Resource> resources) {
-        this.resources = resources;
-        return this;
-    }
-
-    public Comment addResource(Resource resource) {
-        this.resources.add(resource);
-        resource.setComment(this);
-        return this;
-    }
-
-    public Comment removeResource(Resource resource) {
-        this.resources.remove(resource);
-        resource.setComment(null);
-        return this;
-    }
-
-    public void setResources(Set<Resource> resources) {
-        this.resources = resources;
     }
 
     public User getAuthor() {

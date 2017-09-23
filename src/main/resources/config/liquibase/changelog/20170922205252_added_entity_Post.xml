@@ -28,9 +28,11 @@
             <column name="message" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+
+            <column name="image" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="post_seo_id" type="bigint">
-                <constraints unique="true" nullable="true" />
-            </column>            <column name="image_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <column name="author_id" type="bigint">

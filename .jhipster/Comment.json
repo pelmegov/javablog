@@ -2,12 +2,6 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "resource",
-            "otherEntityName": "resource",
-            "otherEntityRelationshipName": "comment"
-        },
-        {
             "relationshipType": "many-to-one",
             "relationshipName": "author",
             "otherEntityName": "user",

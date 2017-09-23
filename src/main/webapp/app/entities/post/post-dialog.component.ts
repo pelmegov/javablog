@@ -10,7 +10,6 @@ import { Post } from './post.model';
 import { PostPopupService } from './post-popup.service';
 import { PostService } from './post.service';
 import { PostSeo, PostSeoService } from '../post-seo';
-import { Resource, ResourceService } from '../resource';
 import { User, UserService } from '../../shared';
 import { Tag, TagService } from '../tag';
 import { ResponseWrapper } from '../../shared';
@@ -26,8 +25,6 @@ export class PostDialogComponent implements OnInit {
 
     postseos: PostSeo[];
 
-    images: Resource[];
-
     users: User[];
 
     tags: Tag[];
@@ -37,7 +34,6 @@ export class PostDialogComponent implements OnInit {
         private alertService: JhiAlertService,
         private postService: PostService,
         private postSeoService: PostSeoService,
-        private resourceService: ResourceService,
         private userService: UserService,
         private tagService: TagService,
         private eventManager: JhiEventManager
@@ -56,19 +52,6 @@ export class PostDialogComponent implements OnInit {
                         .find(this.post.postSeo.id)
                         .subscribe((subRes: PostSeo) => {
                             this.postseos = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
-        this.resourceService
-            .query({filter: 'post-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.post.image || !this.post.image.id) {
-                    this.images = res.json;
-                } else {
-                    this.resourceService
-                        .find(this.post.image.id)
-                        .subscribe((subRes: Resource) => {
-                            this.images = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
@@ -113,10 +96,6 @@ export class PostDialogComponent implements OnInit {
     }
 
     trackPostSeoById(index: number, item: PostSeo) {
-        return item.id;
-    }
-
-    trackResourceById(index: number, item: Resource) {
         return item.id;
     }
 
