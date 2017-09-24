@@ -1,9 +1,11 @@
 package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
 import ru.javablog.blog.domain.Tag;
 
 import ru.javablog.blog.repository.TagRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -44,6 +46,7 @@ public class TagResource {
      */
     @PostMapping("/tags")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Tag> createTag(@Valid @RequestBody Tag tag) throws URISyntaxException {
         log.debug("REST request to save Tag : {}", tag);
         if (tag.getId() != null) {
@@ -66,6 +69,7 @@ public class TagResource {
      */
     @PutMapping("/tags")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Tag> updateTag(@Valid @RequestBody Tag tag) throws URISyntaxException {
         log.debug("REST request to update Tag : {}", tag);
         if (tag.getId() == null) {
@@ -111,6 +115,7 @@ public class TagResource {
      */
     @DeleteMapping("/tags/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         log.debug("REST request to delete Tag : {}", id);
         tagRepository.delete(id);

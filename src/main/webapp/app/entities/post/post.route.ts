@@ -14,7 +14,7 @@ export const postRoute: Routes = [
         path: 'post',
         component: PostComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'javablogApp.post.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -22,7 +22,7 @@ export const postRoute: Routes = [
         path: 'post/:id',
         component: PostDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'javablogApp.post.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -34,7 +34,7 @@ export const postPopupRoute: Routes = [
         path: 'post-new',
         component: PostPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.post.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -44,7 +44,7 @@ export const postPopupRoute: Routes = [
         path: 'post/:id/edit',
         component: PostPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.post.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -54,7 +54,7 @@ export const postPopupRoute: Routes = [
         path: 'post/:id/delete',
         component: PostDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.post.home.title'
         },
         canActivate: [UserRouteAccessService],

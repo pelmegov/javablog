@@ -1,9 +1,11 @@
 package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
 import ru.javablog.blog.domain.PostSeo;
 
 import ru.javablog.blog.repository.PostSeoRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -43,6 +45,7 @@ public class PostSeoResource {
      */
     @PostMapping("/post-seos")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<PostSeo> createPostSeo(@RequestBody PostSeo postSeo) throws URISyntaxException {
         log.debug("REST request to save PostSeo : {}", postSeo);
         if (postSeo.getId() != null) {
@@ -65,6 +68,7 @@ public class PostSeoResource {
      */
     @PutMapping("/post-seos")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<PostSeo> updatePostSeo(@RequestBody PostSeo postSeo) throws URISyntaxException {
         log.debug("REST request to update PostSeo : {}", postSeo);
         if (postSeo.getId() == null) {
@@ -110,6 +114,7 @@ public class PostSeoResource {
      */
     @DeleteMapping("/post-seos/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deletePostSeo(@PathVariable Long id) {
         log.debug("REST request to delete PostSeo : {}", id);
         postSeoRepository.delete(id);

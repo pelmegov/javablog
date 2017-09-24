@@ -14,7 +14,7 @@ export const commentRoute: Routes = [
         path: 'comment',
         component: CommentComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'javablogApp.comment.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -22,7 +22,7 @@ export const commentRoute: Routes = [
         path: 'comment/:id',
         component: CommentDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'javablogApp.comment.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -54,7 +54,7 @@ export const commentPopupRoute: Routes = [
         path: 'comment/:id/delete',
         component: CommentDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.comment.home.title'
         },
         canActivate: [UserRouteAccessService],

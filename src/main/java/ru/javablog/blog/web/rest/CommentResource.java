@@ -1,9 +1,11 @@
 package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
 import ru.javablog.blog.domain.Comment;
 
 import ru.javablog.blog.repository.CommentRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -44,6 +46,7 @@ public class CommentResource {
      */
     @PostMapping("/comments")
     @Timed
+    @Secured(AuthoritiesConstants.USER)
     public ResponseEntity<Comment> createComment(@Valid @RequestBody Comment comment) throws URISyntaxException {
         log.debug("REST request to save Comment : {}", comment);
         if (comment.getId() != null) {
@@ -66,6 +69,7 @@ public class CommentResource {
      */
     @PutMapping("/comments")
     @Timed
+    @Secured(AuthoritiesConstants.USER)
     public ResponseEntity<Comment> updateComment(@Valid @RequestBody Comment comment) throws URISyntaxException {
         log.debug("REST request to update Comment : {}", comment);
         if (comment.getId() == null) {
@@ -111,6 +115,7 @@ public class CommentResource {
      */
     @DeleteMapping("/comments/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         log.debug("REST request to delete Comment : {}", id);
         commentRepository.delete(id);

@@ -14,7 +14,7 @@ export const postSeoRoute: Routes = [
         path: 'post-seo',
         component: PostSeoComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'javablogApp.postSeo.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -22,7 +22,7 @@ export const postSeoRoute: Routes = [
         path: 'post-seo/:id',
         component: PostSeoDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'javablogApp.postSeo.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -34,7 +34,7 @@ export const postSeoPopupRoute: Routes = [
         path: 'post-seo-new',
         component: PostSeoPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.postSeo.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -44,7 +44,7 @@ export const postSeoPopupRoute: Routes = [
         path: 'post-seo/:id/edit',
         component: PostSeoPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.postSeo.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -54,7 +54,7 @@ export const postSeoPopupRoute: Routes = [
         path: 'post-seo/:id/delete',
         component: PostSeoDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'javablogApp.postSeo.home.title'
         },
         canActivate: [UserRouteAccessService],

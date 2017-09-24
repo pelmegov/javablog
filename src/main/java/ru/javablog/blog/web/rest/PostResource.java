@@ -1,9 +1,11 @@
 package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
 import ru.javablog.blog.domain.Post;
 
 import ru.javablog.blog.repository.PostRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -44,6 +46,7 @@ public class PostResource {
      */
     @PostMapping("/posts")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Post> createPost(@Valid @RequestBody Post post) throws URISyntaxException {
         log.debug("REST request to save Post : {}", post);
         if (post.getId() != null) {
@@ -66,6 +69,7 @@ public class PostResource {
      */
     @PutMapping("/posts")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Post> updatePost(@Valid @RequestBody Post post) throws URISyntaxException {
         log.debug("REST request to update Post : {}", post);
         if (post.getId() == null) {
@@ -111,6 +115,7 @@ public class PostResource {
      */
     @DeleteMapping("/posts/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         log.debug("REST request to delete Post : {}", id);
         postRepository.delete(id);
