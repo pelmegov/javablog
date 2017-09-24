@@ -34,7 +34,9 @@
                 <td>{{post.image}}</td>
                 <td>
                     <div *ngIf="post.postSeo">
-                        <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.id}}</a>
+                        <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.description}}</a>
+                        <br>
+                        <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.keywords}}</a>
                     </div>
                 </td>
                 <td>
@@ -42,7 +44,7 @@
                 </td>
                 <td>
                     <span *ngFor="let tag of post.tags; let last = last">
-                            <a class="form-control-static" [routerLink]="['../tag', tag?.id ]">{{tag.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['../tag', tag?.id ]">{{tag.title}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td class="text-right">

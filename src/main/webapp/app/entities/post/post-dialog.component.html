@@ -58,7 +58,7 @@
             <label class="form-control-label" jhiTranslate="javablogApp.post.postSeo" for="field_postSeo">Post Seo</label>
             <select class="form-control" id="field_postSeo" name="postSeo" [(ngModel)]="post.postSeo">
                 <option [ngValue]="null"></option>
-                <option [ngValue]="postSeoOption.id === post.postSeo?.id ? post.postSeo : postSeoOption" *ngFor="let postSeoOption of postseos; trackBy: trackPostSeoById">{{postSeoOption.id}}</option>
+                <option [ngValue]="postSeoOption.id === post.postSeo?.id ? post.postSeo : postSeoOption" *ngFor="let postSeoOption of postseos; trackBy: trackPostSeoById">{{postSeoOption.description}} | {{postSeoOption.keywords}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -71,7 +71,7 @@
         <div class="form-group">
             <label jhiTranslate="javablogApp.post.tag" for="field_tag">Tag</label>
             <select class="form-control" id="field_tag" multiple name="tag" [(ngModel)]="post.tags">
-                <option [ngValue]="getSelected(post.tags, tagOption)" *ngFor="let tagOption of tags; trackBy: trackTagById">{{tagOption.id}}</option>
+                <option [ngValue]="getSelected(post.tags, tagOption)" *ngFor="let tagOption of tags; trackBy: trackTagById">{{tagOption.title}}</option>
             </select>
         </div>
     </div>

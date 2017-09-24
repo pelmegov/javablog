@@ -19,7 +19,9 @@
         <dt><span jhiTranslate="javablogApp.post.postSeo">Post Seo</span></dt>
         <dd>
             <div *ngIf="post.postSeo">
-                <a [routerLink]="['/post-seo', post.postSeo?.id]">{{post.postSeo?.id}}</a>
+                <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.description}}</a>
+                <br>
+                <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.keywords}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="javablogApp.post.author">Author</span></dt>
@@ -29,7 +31,7 @@
         <dt><span jhiTranslate="javablogApp.post.tag">Tag</span></dt>
         <dd>
             <span *ngFor="let tag of post.tags; let last = last">
-                <a [routerLink]="['/tag', tag?.id ]">{{tag.id}}</a>{{last ? '' : ', '}}
+                <a [routerLink]="['/tag', tag?.id ]">{{tag.title}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
     </dl>

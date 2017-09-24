@@ -24,7 +24,7 @@ public class Comment implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "message", nullable = false)
+    @Column(name = "message", columnDefinition = "TEXT", nullable = false)
     private String message;
 
     @ManyToOne
