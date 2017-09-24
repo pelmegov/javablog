@@ -5,6 +5,7 @@ import { JavablogSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
 import { TagComponent } from '../entities/tag/tag.component';
+import { PostComponent } from '../entities/post/post.component';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { TagComponent } from '../entities/tag/tag.component';
     entryComponents: [
     ],
     providers: [
-        TagComponent
+        TagComponent,
+        PostComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
