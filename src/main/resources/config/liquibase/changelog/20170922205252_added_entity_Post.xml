@@ -25,11 +25,11 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="message" type="varchar(20000)">
+            <column name="message" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
 
-            <column name="image" type="varchar(1024)">
+            <column name="image" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="post_seo_id" type="bigint">
@@ -54,5 +54,17 @@
         <addPrimaryKey columnNames="posts_id, tags_id" tableName="post_tag"/>
 
     </changeSet>
+
+    <changeSet author="spelmegov" id="modifyDataTypePost">
+        <modifyDataType columnName="message"
+                        newDataType="varchar(20000)"
+                        schemaName="public"
+                        tableName="post"/>
+        <modifyDataType columnName="image"
+                        newDataType="varchar(1024)"
+                        schemaName="public"
+                        tableName="post"/>
+    </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
