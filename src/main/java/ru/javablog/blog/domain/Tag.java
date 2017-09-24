@@ -1,5 +1,6 @@
 package ru.javablog.blog.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,11 +31,9 @@ public class Tag implements Serializable {
     @Column(name = "title", length = 255, nullable = false)
     private String title;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "tag_post",
-               joinColumns = @JoinColumn(name="tags_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="posts_id", referencedColumnName="id"))
     private Set<Post> posts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove

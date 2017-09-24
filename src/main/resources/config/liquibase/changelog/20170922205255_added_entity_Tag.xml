@@ -28,17 +28,6 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         
-        <createTable tableName="tag_post">
-            <column name="posts_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="tags_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="tags_id, posts_id" tableName="tag_post"/>
-        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

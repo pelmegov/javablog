@@ -86,7 +86,7 @@ public class PostResource {
     @Timed
     public List<Post> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postRepository.findAll();
+        return postRepository.findAllWithEagerRelationships();
         }
 
     /**
@@ -99,7 +99,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Post> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        Post post = postRepository.findOne(id);
+        Post post = postRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 

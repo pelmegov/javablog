@@ -18,7 +18,6 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="javablogApp.tag.title">Title</span></th>
-            <th><span jhiTranslate="javablogApp.tag.post">Post</span></th>
             <th></th>
             </tr>
             </thead>
@@ -26,11 +25,6 @@
             <tr *ngFor="let tag of tags ;trackBy: trackId">
                 <td><a [routerLink]="['../tag', tag.id ]">{{tag.id}}</a></td>
                 <td>{{tag.title}}</td>
-                <td>
-                    <span *ngFor="let post of tag.posts; let last = last">
-                            <a class="form-control-static" [routerLink]="['../post', post?.id ]">{{post.id}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

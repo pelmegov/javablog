@@ -26,6 +26,12 @@
         <dd>
             {{post.author?.login}}
         </dd>
+        <dt><span jhiTranslate="javablogApp.post.tag">Tag</span></dt>
+        <dd>
+            <span *ngFor="let tag of post.tags; let last = last">
+                <a [routerLink]="['/tag', tag?.id ]">{{tag.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
     </dl>
 
     <button type="submit"

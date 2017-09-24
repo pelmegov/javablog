@@ -6,8 +6,7 @@
             "otherEntityRelationshipName": "tag",
             "relationshipName": "post",
             "otherEntityName": "post",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "ownerSide": false
         }
     ],
     "fields": [

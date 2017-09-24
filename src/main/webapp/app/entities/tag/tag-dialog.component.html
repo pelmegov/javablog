@@ -32,12 +32,6 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="javablogApp.tag.post" for="field_post">Post</label>
-            <select class="form-control" id="field_post" multiple name="post" [(ngModel)]="tag.posts">
-                <option [ngValue]="getSelected(tag.posts, postOption)" *ngFor="let postOption of posts; trackBy: trackPostById">{{postOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

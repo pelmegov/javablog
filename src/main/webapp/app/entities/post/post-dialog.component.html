@@ -68,6 +68,12 @@
                 <option [ngValue]="userOption.id === post.author?.id ? post.author : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
             </select>
         </div>
+        <div class="form-group">
+            <label jhiTranslate="javablogApp.post.tag" for="field_tag">Tag</label>
+            <select class="form-control" id="field_tag" multiple name="tag" [(ngModel)]="post.tags">
+                <option [ngValue]="getSelected(post.tags, tagOption)" *ngFor="let tagOption of tags; trackBy: trackTagById">{{tagOption.id}}</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
