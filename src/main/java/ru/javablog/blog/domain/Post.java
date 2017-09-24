@@ -32,7 +32,7 @@ public class Post implements Serializable {
     private String title;
 
     @NotNull
-    @Column(name = "message", nullable = false)
+    @Column(name = "message", columnDefinition = "TEXT", nullable = false)
     private String message;
 
     @NotNull
