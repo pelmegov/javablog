@@ -31,16 +31,20 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        // get all tags
+        this.tagsService.query().subscribe((res) => {
+            this.tags = res.json;
+        });
+
+        // get all posts
+        this.postService.query().subscribe((res) => {
+            this.posts = res.json;
+        });
+
         this.principal.identity().then((account) => {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
-        this.tagsService.query('select *').subscribe((tags) => {
-            this.tags = tags.json;
-        });
-        this.postService.query('select *').subscribe((posts) => {
-            this.posts = posts.json;
-        });
     }
 
     registerAuthenticationSuccess() {
