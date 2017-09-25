@@ -16,7 +16,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("select post from Post post where post.author.login = ?#{principal.username}")
     List<Post> findByAuthorIsCurrentUser();
-    @Query("select distinct post from Post post left join fetch post.tags")
+    @Query("select distinct post from Post post left join fetch post.tags order by post.id desc")
     List<Post> findAllWithEagerRelationships();
 
     @Query("select post from Post post left join fetch post.tags where post.id =:id")
