@@ -22,19 +22,24 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="message" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="author_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
             <column name="post_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/domain/comment/comment.csv"
+                  separator=";"
+                  tableName="comment"/>
 
     </changeSet>
 
