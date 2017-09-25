@@ -53,6 +53,11 @@
 
         <addPrimaryKey columnNames="posts_id, tags_id" tableName="post_tag"/>
 
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/domain/post/post.csv"
+                  separator=";"
+                  tableName="post"/>
+
     </changeSet>
 
     <changeSet author="spelmegov" id="modifyDataTypePost">
