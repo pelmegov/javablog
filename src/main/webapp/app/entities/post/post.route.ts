@@ -8,6 +8,7 @@ import { PostComponent } from './post.component';
 import { PostDetailComponent } from './post-detail.component';
 import { PostPopupComponent } from './post-dialog.component';
 import { PostDeletePopupComponent } from './post-delete-dialog.component';
+import { FrontPostDetailComponent } from './front/front-post-detail.component';
 
 export const postRoute: Routes = [
     {
@@ -21,6 +22,14 @@ export const postRoute: Routes = [
     }, {
         path: 'post/:id',
         component: PostDetailComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'javablogApp.post.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'front/post/:id',
+        component: FrontPostDetailComponent,
         data: {
             authorities: [],
             pageTitle: 'javablogApp.post.home.title'

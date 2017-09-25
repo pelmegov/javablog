@@ -14,7 +14,7 @@
             <div class="card-body">
                 <h2 class="card-title">{{post.title}}</h2>
                 <p class="card-text">{{post.message}}</p>
-                <a [routerLink]="['../post', post.id ]" class="btn btn-primary">Read More &rarr;</a>
+                <a [routerLink]="['../front/post', post.id ]" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                 Posted on January 1, 2017 by {{post.author?.login}}

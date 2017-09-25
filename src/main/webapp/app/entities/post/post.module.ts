@@ -14,6 +14,7 @@ import {
     PostDeleteDialogComponent,
     postRoute,
     postPopupRoute,
+    FrontPostDetailComponent,
 } from './';
 
 const ENTITY_STATES = [
@@ -34,6 +35,7 @@ const ENTITY_STATES = [
         PostDeleteDialogComponent,
         PostPopupComponent,
         PostDeletePopupComponent,
+        FrontPostDetailComponent,
     ],
     entryComponents: [
         PostComponent,
