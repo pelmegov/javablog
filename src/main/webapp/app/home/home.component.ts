@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
 
     // method cut message in post
     private static cutMsg( post: Post ): Post {
-        post.message = post.message.substr(0, HomeComponent.MAX_SYMBOLS);
+        post.message = post.message.substr(0, HomeComponent.MAX_SYMBOLS) + '...';
         return post;
     }
 
