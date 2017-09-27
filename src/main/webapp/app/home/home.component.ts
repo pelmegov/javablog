@@ -16,10 +16,19 @@ import { Post } from '../entities/post/post.model';
     ]
 })
 export class HomeComponent implements OnInit {
+
+    static MAX_SYMBOLS = 255;
+
     account: Account;
     modalRef: NgbModalRef;
     tags: Tag[];
-    posts: Post[];
+    posts: Post[] = [];
+
+    // method cut message in post
+    private static cutMsg( post: Post ): Post {
+        post.message = post.message.substr(0, HomeComponent.MAX_SYMBOLS);
+        return post;
+    }
 
     constructor(
         private principal: Principal,
@@ -38,7 +47,12 @@ export class HomeComponent implements OnInit {
 
         // get all posts
         this.postService.query().subscribe((res) => {
-            this.posts = res.json;
+            res.json.map((post: Post) => {
+                if (post && post.message && post.message.length > HomeComponent.MAX_SYMBOLS) {
+                    post = HomeComponent.cutMsg(post);
+                }
+                return this.posts.push(post);
+            });
         });
 
         this.principal.identity().then((account) => {
