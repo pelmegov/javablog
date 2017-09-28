@@ -6,30 +6,8 @@
     <!-- Blog Entries Column -->
     <div class="col-md-8">
 
-        <h1 class="my-4">Blog topics</h1>
-
-        <!-- Blog Post -->
-        <div *ngFor="let post of posts" class="card mb-4">
-            <img class="card-img-top" src="{{post.image}}" alt="{{post.image}}">
-            <div class="card-body">
-                <h2 class="card-title">{{post.title}}</h2>
-                <p class="card-text">{{post.message}}</p>
-                <a [routerLink]="['../front/post', post.id ]" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-                Posted on January 1, 2017 by {{post.author?.login}}
-            </div>
-        </div>
-
-        <!-- Pagination -->
-        <ul class="pagination justify-content-center mb-4">
-            <li class="page-item">
-                <a class="page-link" href="#">&larr; Older</a>
-            </li>
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Newer &rarr;</a>
-            </li>
-        </ul>
+        <!-- Blog Posts -->
+        <jhi-front-post></jhi-front-post>
 
     </div>
 

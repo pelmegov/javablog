@@ -3,16 +3,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
 
-import { Post } from './post.model';
-import { PostService } from './post.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { Post } from '../post.model';
+import {PostService} from '../post.service';
+import {Principal} from '../../../shared/auth/principal.service';
+import {PaginationConfig} from '../../../blocks/config/uib-pagination.config';
+import {ITEMS_PER_PAGE} from '../../../shared/constants/pagination.constants';
+import {ResponseWrapper} from '../../../shared/model/response-wrapper.model';
 
 @Component({
-    selector: 'jhi-post',
-    templateUrl: './post.component.html'
+    selector: 'jhi-front-post',
+    templateUrl: './front-post.component.html'
 })
-export class PostComponent implements OnInit, OnDestroy {
+export class FrontPostComponent implements OnInit, OnDestroy {
+
+    static MAX_SYMBOLS = 255;
 
     currentAccount: any;
     posts: Post[];
@@ -29,6 +33,12 @@ export class PostComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
 
+    // method cut message in post
+    private static cutMsg( post: Post ): Post {
+        post.message = post.message.substr(0, FrontPostComponent.MAX_SYMBOLS) + '...';
+        return post;
+    }
+
     constructor(
         private postService: PostService,
         private parseLinks: JhiParseLinks,
@@ -42,10 +52,15 @@ export class PostComponent implements OnInit, OnDestroy {
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
-            this.page = data['pagingParams'].page;
-            this.previousPage = data['pagingParams'].page;
-            this.reverse = data['pagingParams'].ascending;
-            this.predicate = data['pagingParams'].predicate;
+            if (data['pagingParams']) {
+                this.page = data['pagingParams'].page;
+                this.previousPage = data['pagingParams'].page;
+                this.reverse = data['pagingParams'].ascending;
+                this.predicate = data['pagingParams'].predicate;
+            } else {
+                this.page = 1;
+                this.predicate = 'id';
+            }
         });
     }
 
@@ -65,7 +80,7 @@ export class PostComponent implements OnInit, OnDestroy {
         }
     }
     transition() {
-        this.router.navigate(['/post'], {queryParams:
+        this.router.navigate(['/'], {queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -77,7 +92,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
     clear() {
         this.page = 0;
-        this.router.navigate(['/post', {
+        this.router.navigate(['/', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
@@ -114,10 +129,18 @@ export class PostComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
-        // this.page = pagingParams.page;
         this.posts = data;
+
+        // get all posts
+        this.posts.map((post: Post) => {
+            if (post && post.message && post.message.length > FrontPostComponent.MAX_SYMBOLS) {
+                post = FrontPostComponent.cutMsg(post);
+            }
+            return post;
+        });
     }
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
+
 }
