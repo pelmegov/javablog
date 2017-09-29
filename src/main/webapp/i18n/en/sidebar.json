@@ -3,8 +3,8 @@
         "search": "Search",
         "tags": "Tags",
         "sideWidget": {
-            "h5": "Side Widget",
-            "body": "You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!"
+            "title": "Side Widget",
+            "message": "You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!"
         }
     }
 }
