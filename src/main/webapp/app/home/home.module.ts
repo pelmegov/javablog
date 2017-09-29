@@ -5,7 +5,7 @@ import { JavablogSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
 import { TagComponent } from '../entities/tag/tag.component';
-import { PostComponent } from '../entities/post/post.component';
+import { FrontPostComponent } from '../entities/post/front/front-post.component';
 
 @NgModule({
     imports: [
@@ -13,13 +13,13 @@ import { PostComponent } from '../entities/post/post.component';
         RouterModule.forRoot([ HOME_ROUTE ], { useHash: true })
     ],
     declarations: [
-        HomeComponent
+        HomeComponent,
+        FrontPostComponent,
     ],
     entryComponents: [
     ],
     providers: [
         TagComponent,
-        PostComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

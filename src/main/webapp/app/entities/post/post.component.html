@@ -15,14 +15,13 @@
     <div class="table-responsive" *ngIf="posts">
         <table class="table table-striped">
             <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="javablogApp.post.title">Title</span></th>
-            <th><span jhiTranslate="javablogApp.post.message">Message</span></th>
-            <th><span jhiTranslate="javablogApp.post.image">Image</span></th>
-            <th><span jhiTranslate="javablogApp.post.postSeo">Post Seo</span></th>
-            <th><span jhiTranslate="javablogApp.post.author">Author</span></th>
-            <th><span jhiTranslate="javablogApp.post.tag">Tag</span></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="title"><span jhiTranslate="javablogApp.post.title">Title</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="message"><span jhiTranslate="javablogApp.post.message">Message</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="image"><span jhiTranslate="javablogApp.post.image">Image</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="postSeo.id"><span jhiTranslate="javablogApp.post.postSeo">Post Seo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="author.login"><span jhiTranslate="javablogApp.post.author">Author</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -44,8 +43,8 @@
                 </td>
                 <td>
                     <span *ngFor="let tag of post.tags; let last = last">
-                            <a class="form-control-static" [routerLink]="['../tag', tag?.id ]">{{tag.title}}</a>{{last ? '' : ', '}}
-                        </span>
+                        <a class="form-control-static" [routerLink]="['../tag', tag?.id ]">{{tag.title}}</a>{{last ? '' : ', '}}
+                    </span>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
@@ -75,4 +74,12 @@
             </tbody>
         </table>
     </div>
+        <div *ngIf="posts && posts.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
 </div>
