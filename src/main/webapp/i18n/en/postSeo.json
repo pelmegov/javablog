@@ -1,0 +1,22 @@
+{
+    "javablogApp": {
+        "postSeo" : {
+            "home": {
+                "title": "Post Seos",
+                "createLabel": "Create a new Post Seo",
+                "createOrEditLabel": "Create or edit a Post Seo"
+            },
+            "created": "A new Post Seo is created with identifier {{ param }}",
+            "updated": "A Post Seo is updated with identifier {{ param }}",
+            "deleted": "A Post Seo is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Post Seo {{ id }}?"
+            },
+            "detail": {
+                "title": "Post Seo"
+            },
+            "description": "Description",
+            "keywords": "Keywords"
+        }
+    }
+}

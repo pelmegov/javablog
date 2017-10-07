@@ -1,0 +1,78 @@
+<div>
+    <h2>
+        <span jhiTranslate="javablogApp.post.home.title">Posts</span>
+        <button class="btn btn-primary float-right jh-create-entity create-post" [routerLink]="['/', { outlets: { popup: ['post-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="javablogApp.post.home.createLabel">
+            Create new Post
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="posts">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="title"><span jhiTranslate="javablogApp.post.title">Title</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="message"><span jhiTranslate="javablogApp.post.message">Message</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="image"><span jhiTranslate="javablogApp.post.image">Image</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="postSeo.id"><span jhiTranslate="javablogApp.post.postSeo">Post Seo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="author.login"><span jhiTranslate="javablogApp.post.author">Author</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let post of posts ;trackBy: trackId">
+                <td><a [routerLink]="['../post', post.id ]">{{post.id}}</a></td>
+                <td>{{post.title}}</td>
+                <td>{{post.message}}</td>
+                <td>{{post.image}}</td>
+                <td>
+                    <div *ngIf="post.postSeo">
+                        <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    {{post.author?.login}}
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../post', post.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="posts && posts.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

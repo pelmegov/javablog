@@ -1,0 +1,14 @@
+version: '2'
+services:
+    javablog-app:
+        image: javablog
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://javablog-postgresql:5432/javablog
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    javablog-postgresql:
+        extends:
+            file: postgresql.yml
+            service: javablog-postgresql
