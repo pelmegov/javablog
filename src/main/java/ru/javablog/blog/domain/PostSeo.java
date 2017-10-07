@@ -28,7 +28,7 @@ public class PostSeo implements Serializable {
     @Column(name = "keywords")
     private String keywords;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -62,7 +62,7 @@ public class PostSeo implements Serializable {
     public void setKeywords(String keywords) {
         this.keywords = keywords;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
