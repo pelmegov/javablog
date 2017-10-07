@@ -6,6 +6,7 @@ import ru.javablog.blog.domain.Comment;
 
 import ru.javablog.blog.repository.CommentRepository;
 import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -33,8 +34,11 @@ public class CommentResource {
 
     private final CommentRepository commentRepository;
 
-    public CommentResource(CommentRepository commentRepository) {
+    private final UserService userService;
+
+    public CommentResource(CommentRepository commentRepository, UserService userService) {
         this.commentRepository = commentRepository;
+        this.userService = userService;
     }
 
     /**
@@ -52,6 +56,7 @@ public class CommentResource {
         if (comment.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new comment cannot already have an ID")).body(null);
         }
+        comment.setAuthor(userService.getUserWithAuthorities());
         Comment result = commentRepository.save(comment);
         return ResponseEntity.created(new URI("/api/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

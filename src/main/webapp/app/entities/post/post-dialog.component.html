@@ -62,13 +62,6 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="javablogApp.post.author" for="field_author">Author</label>
-            <select class="form-control" id="field_author" name="author" [(ngModel)]="post.author" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="userOption.id === post.author?.id ? post.author : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label jhiTranslate="javablogApp.post.tag" for="field_tag">Tag</label>
             <select class="form-control" id="field_tag" multiple name="tag" [(ngModel)]="post.tags">
                 <option [ngValue]="getSelected(post.tags, tagOption)" *ngFor="let tagOption of tags; trackBy: trackTagById">{{tagOption.title}}</option>
