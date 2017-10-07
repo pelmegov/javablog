@@ -31,7 +31,7 @@ export class PostDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private postService: PostService,
         private postSeoService: PostSeoService,
         private userService: UserService,
@@ -92,7 +92,7 @@ export class PostDialogComponent implements OnInit {
     }
 
     private onError(error: any) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 
     trackPostSeoById(index: number, item: PostSeo) {

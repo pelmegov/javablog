@@ -16,20 +16,23 @@ export class PostSeoService {
     create(postSeo: PostSeo): Observable<PostSeo> {
         const copy = this.convert(postSeo);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
     update(postSeo: PostSeo): Observable<PostSeo> {
         const copy = this.convert(postSeo);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
     find(id: number): Observable<PostSeo> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
@@ -45,9 +48,24 @@ export class PostSeoService {
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
+        const result = [];
+        for (let i = 0; i < jsonResponse.length; i++) {
+            result.push(this.convertItemFromServer(jsonResponse[i]));
+        }
+        return new ResponseWrapper(res.headers, result, res.status);
     }
 
+    /**
+     * Convert a returned JSON object to PostSeo.
+     */
+    private convertItemFromServer(json: any): PostSeo {
+        const entity: PostSeo = Object.assign(new PostSeo(), json);
+        return entity;
+    }
+
+    /**
+     * Convert a PostSeo to a JSON which can be sent to the server.
+     */
     private convert(postSeo: PostSeo): PostSeo {
         const copy: PostSeo = Object.assign({}, postSeo);
         return copy;
