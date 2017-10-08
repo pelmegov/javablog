@@ -2,10 +2,12 @@ package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.security.access.annotation.Secured;
+import ru.javablog.blog.domain.Comment;
 import ru.javablog.blog.domain.Post;
 
 import ru.javablog.blog.repository.PostRepository;
 import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import ru.javablog.blog.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -23,6 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +42,11 @@ public class PostResource {
 
     private final PostRepository postRepository;
 
-    public PostResource(PostRepository postRepository) {
+    private final UserService userService;
+
+    public PostResource(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
+        this.userService = userService;
     }
 
     /**
@@ -58,6 +64,7 @@ public class PostResource {
         if (post.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new post cannot already have an ID")).body(null);
         }
+        post.setAuthor(userService.getUserWithAuthorities());
         Post result = postRepository.save(post);
         return ResponseEntity.created(new URI("/api/posts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -130,4 +137,18 @@ public class PostResource {
         postRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * GET  /posts/:id/comments : get all comments in post.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of posts in body
+     */
+    @GetMapping("/posts/{id}/comments")
+    @Timed
+    public ResponseEntity<List<Comment>> getCommentsInPost(@PathVariable Long id) {
+        Post post = postRepository.findOne(id);
+        List<Comment> comments = new ArrayList<>(post.getComments());
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
 }

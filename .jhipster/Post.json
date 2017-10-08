@@ -60,6 +60,6 @@
     "changelogDate": "20170922205252",
     "entityTableName": "post",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no"
 }

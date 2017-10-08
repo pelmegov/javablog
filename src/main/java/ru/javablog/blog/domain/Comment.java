@@ -30,10 +30,11 @@ public class Comment implements Serializable {
     @ManyToOne
     private User author;
 
+    @NotNull
     @ManyToOne
     private Post post;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -80,7 +81,7 @@ public class Comment implements Serializable {
     public void setPost(Post post) {
         this.post = post;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

@@ -4,6 +4,7 @@ import ru.javablog.blog.JavablogApp;
 
 import ru.javablog.blog.domain.Comment;
 import ru.javablog.blog.repository.CommentRepository;
+import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -59,10 +60,13 @@ public class CommentResourceIntTest {
 
     private Comment comment;
 
+    @Autowired
+    private UserService userService;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CommentResource commentResource = new CommentResource(commentRepository);
+        final CommentResource commentResource = new CommentResource(commentRepository, userService);
         this.restCommentMockMvc = MockMvcBuilders.standaloneSetup(commentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

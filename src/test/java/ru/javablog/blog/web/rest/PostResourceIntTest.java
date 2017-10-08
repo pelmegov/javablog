@@ -4,6 +4,7 @@ import ru.javablog.blog.JavablogApp;
 
 import ru.javablog.blog.domain.Post;
 import ru.javablog.blog.repository.PostRepository;
+import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -65,10 +66,13 @@ public class PostResourceIntTest {
 
     private Post post;
 
+    @Autowired
+    private UserService userService;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PostResource postResource = new PostResource(postRepository);
+        final PostResource postResource = new PostResource(postRepository, userService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
