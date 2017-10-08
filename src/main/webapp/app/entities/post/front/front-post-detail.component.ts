@@ -31,8 +31,10 @@ export class FrontPostDetailComponent extends PostDetailComponent implements OnI
     }
 
     addComment(comment) {
-        this.commentService.addCommentToPost(comment.value, this.post).subscribe((resp) => this.loadComments(this.postId));
-        comment.value = '';
+        if (comment.value !== '') {
+            this.commentService.addCommentToPost(comment.value, this.post).subscribe((resp) => this.loadComments(this.postId));
+            comment.value = '';
+        }
     }
 
     loadComments(postId) {
