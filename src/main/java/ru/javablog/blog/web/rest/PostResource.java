@@ -2,6 +2,7 @@ package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.security.access.annotation.Secured;
+import ru.javablog.blog.domain.Comment;
 import ru.javablog.blog.domain.Post;
 
 import ru.javablog.blog.repository.PostRepository;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,4 +137,18 @@ public class PostResource {
         postRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * GET  /posts/:id/comments : get all comments in post.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of posts in body
+     */
+    @GetMapping("/posts/{id}/comments")
+    @Timed
+    public ResponseEntity<List<Comment>> getCommentsInPost(@PathVariable Long id) {
+        Post post = postRepository.findOne(id);
+        List<Comment> comments = new ArrayList<>(post.getComments());
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
 }
