@@ -13,19 +13,21 @@ import { PostService } from './post.service';
 export class PostDetailComponent implements OnInit, OnDestroy {
 
     post: Post;
+    postId: number;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
 
     constructor(
-        private eventManager: JhiEventManager,
-        private postService: PostService,
-        private route: ActivatedRoute
+        public eventManager: JhiEventManager,
+        public postService: PostService,
+        public route: ActivatedRoute
     ) {
     }
 
     ngOnInit() {
         this.subscription = this.route.params.subscribe((params) => {
-            this.load(params['id']);
+            this.postId=params['id'];
+            this.load(this.postId);
         });
         this.registerChangeInPosts();
     }
