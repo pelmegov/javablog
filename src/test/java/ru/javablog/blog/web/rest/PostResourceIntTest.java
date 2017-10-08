@@ -1,8 +1,11 @@
 package ru.javablog.blog.web.rest;
 
+import org.assertj.core.util.Lists;
 import ru.javablog.blog.JavablogApp;
 
+import ru.javablog.blog.domain.Comment;
 import ru.javablog.blog.domain.Post;
+import ru.javablog.blog.repository.CommentRepository;
 import ru.javablog.blog.repository.PostRepository;
 import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.web.rest.errors.ExceptionTranslator;
@@ -69,10 +72,13 @@ public class PostResourceIntTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PostResource postResource = new PostResource(postRepository, userService);
+        final PostResource postResource = new PostResource(postRepository, commentRepository, userService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -292,6 +298,33 @@ public class PostResourceIntTest {
         // Validate the database is empty
         List<Post> postList = postRepository.findAll();
         assertThat(postList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void getPostComments() throws Exception {
+        // Initialize the database
+        postRepository.saveAndFlush(post);
+
+        Comment comment = new Comment();
+        comment.setId(1L);
+        comment.setMessage(DEFAULT_MESSAGE);
+        comment.setPost(post);
+        post.addComment(comment);
+
+        commentRepository.saveAndFlush(comment);
+        postRepository.saveAndFlush(post);
+
+        restPostMockMvc.perform(get("/api/posts/{id}/comments", post.getId()))
+            .andExpect(status().isOk());
+
+        // Validate the Comments for Post in the database
+        List<Comment> commentsList = Lists.newArrayList(commentRepository.findByPost(post));
+        assertThat(commentsList).hasSize(1);
+
+        Comment commentTest = commentsList.get(commentsList.size() - 1);
+        assertThat(commentTest.getMessage()).isEqualTo(DEFAULT_MESSAGE);
+        assertThat(commentTest.getPost()).isEqualTo(post);
     }
 
     @Test
