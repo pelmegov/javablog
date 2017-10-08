@@ -157,15 +157,9 @@ public class PostResource {
      */
     @GetMapping("/posts/{id}/comments")
     @Timed
-<<<<<<< HEAD
-    public ResponseEntity<List<Comment>> getCommentsInPost(@PathVariable Long id) {
-        Post post = postRepository.findOne(id);
-        List<Comment> comments = new ArrayList<>(post.getComments());
-=======
     public ResponseEntity<List<Comment>> getPostComments(@PathVariable Long id) {
         log.debug("REST request to get comments for Post : {}", id);
         List<Comment> comments = Lists.newArrayList(commentRepository.findByPost(postRepository.findOne(id)));
->>>>>>> 96241f1aa3bfb79b9252b4c2c2d0e69ee98bd1c2
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
