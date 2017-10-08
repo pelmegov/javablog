@@ -30,6 +30,7 @@ public class Comment implements Serializable {
     @ManyToOne
     private User author;
 
+    @NotNull
     @ManyToOne
     private Post post;
 
