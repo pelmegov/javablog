@@ -18,7 +18,7 @@ import {
     FrontPostDetailComponent,
 } from './';
 import { FormsModule } from '@angular/forms';
-import { CommentsService } from './comments.service';
+import { CommentService } from './comment.service';
 
 const ENTITY_STATES = [
     ...postRoute,
@@ -50,7 +50,7 @@ const ENTITY_STATES = [
     ],
     providers: [
         PostService,
-        CommentsService,
+        CommentService,
         PostPopupService,
         PostResolvePagingParams,
     ],

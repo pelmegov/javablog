@@ -6,7 +6,7 @@ import { SERVER_API_URL } from '../../app.constants';
 import { Post } from './post.model';
 
 @Injectable()
-export class CommentsService {
+export class CommentService {
 
     private resourceUrl = SERVER_API_URL + 'api/comments';
 

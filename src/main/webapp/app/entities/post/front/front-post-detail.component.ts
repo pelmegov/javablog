@@ -4,7 +4,7 @@ import { Post } from '../post.model';
 import { ActivatedRoute } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { PostService } from '../post.service';
-import { CommentsService } from '../comments.service';
+import { CommentService } from '../comment.service';
 import { Subject } from 'rxjs';
 import { Principal } from '../../../shared/index';
 
@@ -19,8 +19,8 @@ export class FrontPostDetailComponent extends PostDetailComponent implements OnI
     constructor(public eventManager: JhiEventManager,
         public postService: PostService,
         public route: ActivatedRoute,
-        public commentsService: CommentsService,
-        private principal: Principal
+        public commentService: CommentService,
+        public principal: Principal
     ) {
         super(eventManager, postService, route);
     }
@@ -31,7 +31,7 @@ export class FrontPostDetailComponent extends PostDetailComponent implements OnI
     }
 
     addComment(comment) {
-        this.commentsService.addCommentToPost(comment.value, this.post).subscribe((resp) => this.loadComments(this.postId));
+        this.commentService.addCommentToPost(comment.value, this.post).subscribe((resp) => this.loadComments(this.postId));
         comment.value = '';
     }
 
