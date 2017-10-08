@@ -44,12 +44,6 @@ public class PostResource {
 
     private final PostRepository postRepository;
 
-<<<<<<< HEAD
-    private final UserService userService;
-
-    public PostResource(PostRepository postRepository, UserService userService) {
-        this.postRepository = postRepository;
-=======
     private final CommentRepository commentRepository;
 
     private final UserService userService;
@@ -57,7 +51,6 @@ public class PostResource {
     public PostResource(PostRepository postRepository, CommentRepository commentRepository, UserService userService) {
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
->>>>>>> 96241f1aa3bfb79b9252b4c2c2d0e69ee98bd1c2
         this.userService = userService;
     }
 
