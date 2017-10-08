@@ -44,7 +44,7 @@
             </span>
 
             <!-- Comments Form -->
-            <div class="card my-4">
+            <div class="card my-4" *ngIf="principal.isAuthenticated()">
                 <h5 class="card-header">Leave a Comment:</h5>
                 <div class="card-body">
                     <form (ngSubmit)="addComment(comment)" #form="ngForm">

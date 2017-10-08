@@ -47,7 +47,7 @@ export class PostService {
     }
 
     getCommentsForPost(postId: number) {
-        return this.http.get(this.resourceUrl + "/" + postId + "/comments").map(response=> response.json());
+        return this.http.get(this.resourceUrl + '/' + postId + '/comments').map((response) => response.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {

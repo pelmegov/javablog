@@ -26,7 +26,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription = this.route.params.subscribe((params) => {
-            this.postId=params['id'];
+            this.postId = params['id'];
             this.load(this.postId);
         });
         this.registerChangeInPosts();
