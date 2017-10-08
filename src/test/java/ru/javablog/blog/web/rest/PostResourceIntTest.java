@@ -3,6 +3,7 @@ package ru.javablog.blog.web.rest;
 import ru.javablog.blog.JavablogApp;
 
 import ru.javablog.blog.domain.Post;
+import ru.javablog.blog.repository.CommentRepository;
 import ru.javablog.blog.repository.PostRepository;
 import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.web.rest.errors.ExceptionTranslator;
@@ -69,10 +70,13 @@ public class PostResourceIntTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PostResource postResource = new PostResource(postRepository, userService);
+        final PostResource postResource = new PostResource(postRepository, commentRepository, userService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

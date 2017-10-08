@@ -43,7 +43,7 @@ public class Post implements Serializable {
     @JoinColumn(unique = true)
     private PostSeo postSeo;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
