@@ -46,6 +46,10 @@ export class PostService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    getCommentsForPost(postId: number) {
+        return this.http.get(this.resourceUrl + "/" + postId + "/comments").map(response=> response.json());
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

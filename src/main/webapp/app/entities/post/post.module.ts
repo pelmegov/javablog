@@ -17,6 +17,8 @@ import {
     PostResolvePagingParams,
     FrontPostDetailComponent,
 } from './';
+import { FormsModule } from '@angular/forms';
+import { CommentsService } from './comments.service';
 
 const ENTITY_STATES = [
     ...postRoute,
@@ -27,7 +29,8 @@ const ENTITY_STATES = [
     imports: [
         JavablogSharedModule,
         JavablogAdminModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
+        RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
+        FormsModule
     ],
     declarations: [
         PostComponent,
@@ -47,6 +50,7 @@ const ENTITY_STATES = [
     ],
     providers: [
         PostService,
+        CommentsService,
         PostPopupService,
         PostResolvePagingParams,
     ],
