@@ -1,10 +1,12 @@
 package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.collect.Lists;
 import org.springframework.security.access.annotation.Secured;
 import ru.javablog.blog.domain.Comment;
 import ru.javablog.blog.domain.Post;
 
+import ru.javablog.blog.repository.CommentRepository;
 import ru.javablog.blog.repository.PostRepository;
 import ru.javablog.blog.security.AuthoritiesConstants;
 import ru.javablog.blog.service.UserService;
@@ -42,10 +44,13 @@ public class PostResource {
 
     private final PostRepository postRepository;
 
+    private final CommentRepository commentRepository;
+
     private final UserService userService;
 
-    public PostResource(PostRepository postRepository, UserService userService) {
+    public PostResource(PostRepository postRepository, CommentRepository commentRepository, UserService userService) {
         this.postRepository = postRepository;
+        this.commentRepository = commentRepository;
         this.userService = userService;
     }
 
@@ -145,9 +150,9 @@ public class PostResource {
      */
     @GetMapping("/posts/{id}/comments")
     @Timed
-    public ResponseEntity<List<Comment>> getCommentsInPost(@PathVariable Long id) {
-        Post post = postRepository.findOne(id);
-        List<Comment> comments = new ArrayList<>(post.getComments());
+    public ResponseEntity<List<Comment>> getPostComments(@PathVariable Long id) {
+        log.debug("REST request to get comments for Post : {}", id);
+        List<Comment> comments = Lists.newArrayList(commentRepository.findByPost(postRepository.findOne(id)));
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
