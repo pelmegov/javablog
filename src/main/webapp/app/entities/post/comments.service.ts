@@ -12,11 +12,11 @@ export class CommentsService {
 
     constructor(private http: Http) { }
 
-    public addCommentToPost(comment: string, post: Post){
+    public addCommentToPost(comment: string, post: Post) {
         return this.http.post(this.resourceUrl, {
-            message:comment,
-            post:{
-                id:post.id
+            message: comment,
+            post: {
+                id: post.id
             }
         });
     }

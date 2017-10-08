@@ -6,6 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { PostService } from '../post.service';
 import { CommentsService } from '../comments.service';
 import { Subject } from 'rxjs';
+import { Principal } from '../../../shared/index';
 
 @Component({
     selector: 'jhi-front-post-detail',
@@ -18,22 +19,23 @@ export class FrontPostDetailComponent extends PostDetailComponent implements OnI
     constructor(public eventManager: JhiEventManager,
         public postService: PostService,
         public route: ActivatedRoute,
-        public commentsService: CommentsService
+        public commentsService: CommentsService,
+        private principal: Principal
     ) {
         super(eventManager, postService, route);
     }
 
-    ngOnInit(){
+    ngOnInit() {
         super.ngOnInit();
         this.loadComments(this.postId);
     }
 
     addComment(comment) {
-        this.commentsService.addCommentToPost(comment.value, this.post).subscribe(resp => this.loadComments(this.postId));
-        comment.value="";
+        this.commentsService.addCommentToPost(comment.value, this.post).subscribe((resp) => this.loadComments(this.postId));
+        comment.value = '';
     }
 
     loadComments(postId) {
-        this.postService.getCommentsForPost(postId).subscribe(comments => this.comments = comments);
+        this.postService.getCommentsForPost(postId).subscribe((comments) => this.comments = comments);
     }
 }

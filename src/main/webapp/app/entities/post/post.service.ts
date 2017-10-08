@@ -47,7 +47,7 @@ export class PostService {
     }
 
     getCommentsForPost(postId: number) {
-        return this.http.get(this.resourceUrl + "/" + postId + "/comments").map(response=> response.json());
+        return this.http.get(this.resourceUrl + '/' + postId + '/comments').map((response) => response.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {
@@ -57,7 +57,6 @@ export class PostService {
             result.push(this.convertItemFromServer(jsonResponse[i]));
         }
         return new ResponseWrapper(res.headers, result, res.status);
-<<<<<<< HEAD
     }
 
     /**
@@ -69,19 +68,6 @@ export class PostService {
     }
 
     /**
-=======
-    }
-
-    /**
-     * Convert a returned JSON object to Post.
-     */
-    private convertItemFromServer(json: any): Post {
-        const entity: Post = Object.assign(new Post(), json);
-        return entity;
-    }
-
-    /**
->>>>>>> 96241f1aa3bfb79b9252b4c2c2d0e69ee98bd1c2
      * Convert a Post to a JSON which can be sent to the server.
      */
     private convert(post: Post): Post {
