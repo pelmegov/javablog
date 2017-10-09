@@ -1,4 +1,4 @@
-package ru.javablog.blog.service.file.upload.impl;
+package ru.javablog.blog.service.upload.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,8 +17,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.javablog.blog.handler.error.StorageException;
 import ru.javablog.blog.handler.error.StorageFileNotFoundException;
-import ru.javablog.blog.service.file.upload.inter.StorageService;
-import ru.javablog.blog.service.file.upload.properties.StorageProperties;
+import ru.javablog.blog.service.upload.inter.StorageService;
+import ru.javablog.blog.service.upload.properties.StorageProperties;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -55,7 +55,7 @@ public class StorageServiceImpl implements StorageService {
         try {
             return Files.walk(this.rootLocation, 1)
                 .filter(path -> !path.equals(this.rootLocation))
-                .map(path -> this.rootLocation.relativize(path));
+                .map(this.rootLocation::relativize);
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);

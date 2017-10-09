@@ -1,4 +1,4 @@
-package ru.javablog.blog.service.file.upload.inter;
+package ru.javablog.blog.service.upload.inter;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

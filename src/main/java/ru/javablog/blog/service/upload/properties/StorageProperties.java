@@ -1,4 +1,4 @@
-package ru.javablog.blog.service.file.upload.properties;
+package ru.javablog.blog.service.upload.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "upload-dir";
+    private String location = "storage";
 
     public String getLocation() {
         return location;
