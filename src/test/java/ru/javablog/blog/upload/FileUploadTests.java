@@ -1,9 +1,5 @@
 package ru.javablog.blog.upload;
 
-import java.nio.file.Paths;
-import java.util.stream.Stream;
-
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,8 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.javablog.blog.JavablogApp;
-import ru.javablog.blog.handler.error.StorageFileNotFoundException;
 import ru.javablog.blog.service.upload.inter.StorageService;
+import ru.javablog.blog.web.rest.errors.StorageFileNotFoundException;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -49,7 +45,8 @@ public class FileUploadTests {
     @SuppressWarnings("unchecked")
     @Test
     public void should404WhenMissingFile() throws Exception {
-        given(this.storageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
+        given(this.storageService.loadAsResource("test.txt"))
+            .willThrow(StorageFileNotFoundException.class);
         this.mvc.perform(get("/files/test.txt")).andExpect(status().isNotFound());
     }
 
