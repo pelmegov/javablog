@@ -1,7 +1,12 @@
 package ru.javablog.blog.upload;
 
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.javablog.blog.JavablogApp;
+import ru.javablog.blog.handler.error.StorageFileNotFoundException;
 import ru.javablog.blog.service.upload.inter.StorageService;
-import ru.javablog.blog.web.rest.errors.StorageFileNotFoundException;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -35,8 +40,9 @@ public class FileUploadTests {
     @Test
     public void shouldSaveUploadedFile() throws Exception {
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
-            "text/plain", "Хипстер!!!".getBytes());
-        this.mvc.perform(fileUpload("/api/upload").file(multipartFile)).andExpect(status().isOk());
+                "text/plain", "Хипстер!!!".getBytes());
+        this.mvc.perform(fileUpload("/api/upload").file(multipartFile));
+
         then(this.storageService).should().store(multipartFile);
     }
 
