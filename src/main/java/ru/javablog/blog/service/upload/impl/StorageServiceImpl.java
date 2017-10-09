@@ -1,13 +1,5 @@
 package ru.javablog.blog.service.upload.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -15,10 +7,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import ru.javablog.blog.handler.error.StorageException;
-import ru.javablog.blog.handler.error.StorageFileNotFoundException;
 import ru.javablog.blog.service.upload.inter.StorageService;
 import ru.javablog.blog.service.upload.properties.StorageProperties;
+import ru.javablog.blog.web.rest.errors.StorageException;
+import ru.javablog.blog.web.rest.errors.StorageFileNotFoundException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.stream.Stream;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -38,14 +38,10 @@ public class StorageServiceImpl implements StorageService {
                 throw new StorageException("Failed to store empty file " + filename);
             }
             if (filename.contains("..")) {
-                throw new StorageException(
-                    "Cannot store file with relative path outside current directory "
-                        + filename);
+                throw new StorageException("Cannot store file with relative path outside current directory " + filename);
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
-                StandardCopyOption.REPLACE_EXISTING);
-        }
-        catch (IOException e) {
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
     }
@@ -56,11 +52,9 @@ public class StorageServiceImpl implements StorageService {
             return Files.walk(this.rootLocation, 1)
                 .filter(path -> !path.equals(this.rootLocation))
                 .map(this.rootLocation::relativize);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
-
     }
 
     @Override
@@ -75,14 +69,11 @@ public class StorageServiceImpl implements StorageService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
-                throw new StorageFileNotFoundException(
-                    "Could not read file: " + filename);
+            } else {
+                throw new StorageFileNotFoundException("Could not read file: " + filename);
 
             }
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
@@ -96,8 +87,7 @@ public class StorageServiceImpl implements StorageService {
     public void init() {
         try {
             Files.createDirectories(rootLocation);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
     }

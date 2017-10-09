@@ -1,4 +1,4 @@
-package ru.javablog.blog.handler.error;
+package ru.javablog.blog.web.rest.errors;
 
 public class StorageException extends RuntimeException {
 
