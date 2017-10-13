@@ -6,6 +6,7 @@ import { JavablogSharedModule } from '../shared';
 import { HOME_ROUTE, HomeComponent } from './';
 import { TagComponent } from '../entities/tag/tag.component';
 import { FrontPostComponent } from '../entities/post/front/front-post.component';
+import { SideBarComponent } from '../home/side-bar/side-bar.component';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { FrontPostComponent } from '../entities/post/front/front-post.component'
     declarations: [
         HomeComponent,
         FrontPostComponent,
+        SideBarComponent,
     ],
     entryComponents: [
     ],
