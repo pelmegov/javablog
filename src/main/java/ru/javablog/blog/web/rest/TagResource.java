@@ -1,24 +1,25 @@
 package ru.javablog.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.security.access.annotation.Secured;
-import ru.javablog.blog.domain.Tag;
-
-import ru.javablog.blog.repository.TagRepository;
-import ru.javablog.blog.security.AuthoritiesConstants;
-import ru.javablog.blog.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import ru.javablog.blog.domain.Post;
+import ru.javablog.blog.domain.Tag;
+import ru.javablog.blog.repository.TagRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.web.rest.util.HeaderUtil;
 
+import javax.annotation.Nonnull;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing Tag.
@@ -91,7 +92,7 @@ public class TagResource {
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
         return tagRepository.findAll();
-        }
+    }
 
     /**
      * GET  /tags/:id : get the "id" tag.
@@ -121,4 +122,17 @@ public class TagResource {
         tagRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * GET  /tags/{id}/posts : Get posts for concrete tag.
+     *
+     * @return the ResponseEntity with status 200 (OK) and with posts for tag.
+     */
+    @GetMapping("/tags/{id}/posts")
+    @Timed
+    public Set<Post> getTagPosts(@Nonnull @PathVariable Long id) {
+        log.debug("REST request to get Tag Posts : {}", id);
+        return tagRepository.getOne(id).getPosts();
+    }
+
 }
