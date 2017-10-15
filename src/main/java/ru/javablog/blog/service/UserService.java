@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -164,6 +165,17 @@ public class UserService {
     }
 
     /**
+     * Update user after upload photo.
+     *
+     * @param login user login
+     * @param imageUrl image URL of user
+     * */
+    public void updateUser(@Nonnull String login, @Nonnull String imageUrl) {
+        User user = getUserByLogin(login);
+        updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getLangKey(), imageUrl);
+    }
+
+    /**
      * Update all information for a specific user, and return the modified user.
      *
      * @param userDTO user to update
@@ -212,6 +224,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<UserDTO> getAllManagedUsers(Pageable pageable) {
         return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER).map(UserDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public User getUserByLogin(String login) {
+        return userRepository.findUserByLogin(login);
     }
 
     @Transactional(readOnly = true)

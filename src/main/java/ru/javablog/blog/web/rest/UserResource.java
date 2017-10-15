@@ -1,13 +1,20 @@
 package ru.javablog.blog.web.rest;
 
+import org.springframework.util.StreamUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.javablog.blog.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import ru.javablog.blog.domain.User;
+import ru.javablog.blog.repository.AuthorityRepository;
 import ru.javablog.blog.repository.UserRepository;
 import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.security.SecurityUtils;
 import ru.javablog.blog.service.MailService;
 import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.service.dto.UserDTO;
+import ru.javablog.blog.service.upload.inter.StorageService;
+import ru.javablog.blog.service.upload.properties.StorageProperties;
 import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import ru.javablog.blog.web.rest.util.PaginationUtil;
@@ -24,6 +31,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,12 +76,22 @@ public class UserResource {
 
     private final UserService userService;
 
+    private final StorageService storageService;
+
+    private final StorageProperties storageProperties;
+
+    private final HttpServletRequest request;
+
     public UserResource(UserRepository userRepository, MailService mailService,
-            UserService userService) {
+                        UserService userService, StorageService storageService,
+                        StorageProperties storageProperties, HttpServletRequest request) {
 
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.userService = userService;
+        this.storageService = storageService;
+        this.storageProperties = storageProperties;
+        this.request = request;
     }
 
     /**
@@ -112,6 +131,30 @@ public class UserResource {
                 .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
+    }
+
+    /**
+     * POST /users/photoUpload : upload user image photo
+     *
+     * @param file image user photo to upload
+     * @return url of the uploaded photo
+     * */
+    @PostMapping("/users/photoUpload")
+    @Timed
+    public String uploadPhoto(@RequestParam("file") MultipartFile file) {
+        log.debug("REST request to upload photo : {}", file);
+
+        String login = SecurityUtils.getCurrentUserLogin();
+        User user = userService.getUserByLogin(login);
+        String filename = SecurityUtils.getCurrentUserLogin() + ".jpeg";
+        String uploadDir = "images";
+        String realPathtoUploads = request.getServletContext().getRealPath(uploadDir);
+
+        storageService.store(file, filename);
+        user.setImageUrl(storageProperties.getLocation() + "/" + filename);
+        userService.updateUser(login, user.getImageUrl());
+
+        return realPathtoUploads + "/" + filename;
     }
 
     /**

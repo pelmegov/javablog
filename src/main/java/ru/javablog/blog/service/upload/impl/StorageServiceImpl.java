@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.javablog.blog.domain.User;
 import ru.javablog.blog.service.upload.inter.StorageService;
 import ru.javablog.blog.service.upload.properties.StorageProperties;
 import ru.javablog.blog.web.rest.errors.StorageException;
 import ru.javablog.blog.web.rest.errors.StorageFileNotFoundException;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -33,6 +35,24 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        try {
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file " + filename);
+            }
+            if (filename.contains("..")) {
+                throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+            }
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file " + filename, e);
+        }
+    }
+
+    @Override
+    public void store(MultipartFile file, String filename) {
+        if (filename == null) {
+            filename = StringUtils.cleanPath(file.getOriginalFilename());
+        }
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
