@@ -29,6 +29,7 @@ import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -144,14 +145,16 @@ public class UserResource {
 
         String login = SecurityUtils.getCurrentUserLogin();
         User user = userService.getUserByLogin(login);
+
         String filename = login + file.getOriginalFilename().split(file.getName())[1];
-        String realPathToUploads = request.getServletContext().getRealPath(UPLOAD_DIR);
+        String fullPath = UPLOAD_DIR + File.separator + filename;
 
         storageService.store(file, filename);
-        user.setImageUrl(realPathToUploads);
-        userService.updateUser(login, user.getImageUrl());
 
-        return realPathToUploads + "/" + filename;
+        user.setImageUrl(UPLOAD_DIR);
+        userService.updateUser(login, fullPath);
+
+        return fullPath;
     }
 
     /**
