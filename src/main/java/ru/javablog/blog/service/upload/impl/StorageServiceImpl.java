@@ -34,18 +34,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        try {
-            if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
-            }
-            if (filename.contains("..")) {
-                throw new StorageException("Cannot store file with relative path outside current directory " + filename);
-            }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new StorageException("Failed to store file " + filename, e);
-        }
+        store(file, null);
     }
 
     @Override
