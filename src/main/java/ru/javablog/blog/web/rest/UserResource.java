@@ -151,7 +151,7 @@ public class UserResource {
         String realPathtoUploads = request.getServletContext().getRealPath(uploadDir);
 
         storageService.store(file, filename);
-        user.setImageUrl(storageProperties.getLocation() + "/" + filename);
+        user.setImageUrl(realPathtoUploads);
         userService.updateUser(login, user.getImageUrl());
 
         return realPathtoUploads + "/" + filename;
