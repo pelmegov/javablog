@@ -1,26 +1,8 @@
 package ru.javablog.blog.web.rest;
 
-import org.springframework.util.StreamUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.javablog.blog.config.Constants;
 import com.codahale.metrics.annotation.Timed;
-import ru.javablog.blog.domain.User;
-import ru.javablog.blog.repository.AuthorityRepository;
-import ru.javablog.blog.repository.UserRepository;
-import ru.javablog.blog.security.AuthoritiesConstants;
-import ru.javablog.blog.security.SecurityUtils;
-import ru.javablog.blog.service.MailService;
-import ru.javablog.blog.service.UserService;
-import ru.javablog.blog.service.dto.UserDTO;
-import ru.javablog.blog.service.upload.inter.StorageService;
-import ru.javablog.blog.service.upload.properties.StorageProperties;
-import ru.javablog.blog.web.rest.vm.ManagedUserVM;
-import ru.javablog.blog.web.rest.util.HeaderUtil;
-import ru.javablog.blog.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -30,13 +12,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.javablog.blog.config.Constants;
+import ru.javablog.blog.domain.User;
+import ru.javablog.blog.repository.UserRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.security.SecurityUtils;
+import ru.javablog.blog.service.MailService;
+import ru.javablog.blog.service.UserService;
+import ru.javablog.blog.service.dto.UserDTO;
+import ru.javablog.blog.service.upload.inter.StorageService;
+import ru.javablog.blog.service.upload.properties.StorageProperties;
+import ru.javablog.blog.web.rest.util.HeaderUtil;
+import ru.javablog.blog.web.rest.util.PaginationUtil;
+import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Path;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+
+import static ru.javablog.blog.web.rest.FileUploadResource.UPLOAD_DIR;
 
 /**
  * REST controller for managing users.
@@ -115,7 +113,7 @@ public class UserResource {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new user cannot already have an ID"))
                 .body(null);
-        // Lowercase the user login before comparing with database
+            // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
@@ -128,7 +126,7 @@ public class UserResource {
             User newUser = userService.createUser(managedUserVM);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -138,7 +136,7 @@ public class UserResource {
      *
      * @param file image user photo to upload
      * @return url of the uploaded photo
-     * */
+     */
     @PostMapping("/users/photoUpload")
     @Timed
     public String uploadPhoto(@RequestParam("file") MultipartFile file) {
@@ -146,15 +144,14 @@ public class UserResource {
 
         String login = SecurityUtils.getCurrentUserLogin();
         User user = userService.getUserByLogin(login);
-        String filename = SecurityUtils.getCurrentUserLogin() + ".jpeg";
-        String uploadDir = "images";
-        String realPathtoUploads = request.getServletContext().getRealPath(uploadDir);
+        String filename = login + file.getOriginalFilename().split(file.getName())[1];
+        String realPathToUploads = request.getServletContext().getRealPath(UPLOAD_DIR);
 
         storageService.store(file, filename);
-        user.setImageUrl(realPathtoUploads);
+        user.setImageUrl(realPathToUploads);
         userService.updateUser(login, user.getImageUrl());
 
-        return realPathtoUploads + "/" + filename;
+        return realPathToUploads + "/" + filename;
     }
 
     /**
@@ -235,6 +232,6 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
     }
 }
