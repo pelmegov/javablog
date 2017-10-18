@@ -7,13 +7,11 @@ import { HOME_ROUTE, HomeComponent } from './';
 import { TagComponent } from '../entities/tag/tag.component';
 import { FrontPostComponent } from '../entities/post/front/front-post.component';
 import { SideBarComponent } from '../home/side-bar/side-bar.component';
-import {JavaBlogSideBarModule} from "./side-bar/side-bar.module";
 
 @NgModule({
     imports: [
         JavablogSharedModule,
-        RouterModule.forRoot([ HOME_ROUTE ], { useHash: true }),
-        JavaBlogSideBarModule,
+        RouterModule.forRoot([ HOME_ROUTE ], { useHash: true })
     ],
     declarations: [
         HomeComponent,
