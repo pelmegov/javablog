@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Tag} from '../../entities/tag/tag.model';
 
 @Component({
   selector: 'jhi-side-bar',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class SideBarComponent implements OnInit {
+  tags: Tag[];
 
   constructor() { }
 
