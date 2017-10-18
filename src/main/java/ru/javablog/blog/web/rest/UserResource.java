@@ -35,8 +35,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.javablog.blog.web.rest.FileUploadResource.UPLOAD_DIR;
-
 /**
  * REST controller for managing users.
  * <p>
@@ -146,12 +144,12 @@ public class UserResource {
         String login = SecurityUtils.getCurrentUserLogin();
         User user = userService.getUserByLogin(login);
 
-        String filename = login + file.getOriginalFilename().split(file.getName())[1];
-        String fullPath = UPLOAD_DIR + File.separator + filename;
+        String filename = login + "." + file.getOriginalFilename().split("\\.")[1];
+        String fullPath = storageProperties.getLocation() + File.separator + filename;
 
         storageService.store(file, filename);
 
-        user.setImageUrl(UPLOAD_DIR);
+        user.setImageUrl(fullPath);
         userService.updateUser(login, fullPath);
 
         return fullPath;

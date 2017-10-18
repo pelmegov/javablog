@@ -17,8 +17,6 @@ public class FileUploadResource {
     private final StorageService storageService;
     private final StorageProperties storageProperties;
 
-    public static final String UPLOAD_DIR = "images";
-
     @Autowired
     public FileUploadResource(StorageService storageService, StorageProperties storageProperties) {
         this.storageService = storageService;
