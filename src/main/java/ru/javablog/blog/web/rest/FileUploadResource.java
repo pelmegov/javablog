@@ -27,7 +27,7 @@ public class FileUploadResource {
     * GET /files/{filename} loads the resource if it exists, and sends it to the browser
     * to download using a "Content-Disposition" response header
     * */
-    @GetMapping("files/{filename:.+}")
+    @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = storageService.loadAsResource(filename);
@@ -43,7 +43,7 @@ public class FileUploadResource {
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
-        return ResponseEntity.ok(storageProperties.getLocation() + "/" + file.getOriginalFilename());
+        return ResponseEntity.ok(storageProperties.getLocation() + file.getOriginalFilename());
     }
 
 }
