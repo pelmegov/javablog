@@ -29,7 +29,6 @@ import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -141,18 +140,19 @@ public class UserResource {
     public String uploadPhoto(@RequestParam("file") MultipartFile file) {
         log.debug("REST request to upload photo : {}", file);
 
+        // get user login and user
         String login = SecurityUtils.getCurrentUserLogin();
         User user = userService.getUserByLogin(login);
 
+        // storing file
         String filename = login + "." + file.getOriginalFilename().split("\\.")[1];
-        String fullPath = storageProperties.getLocation() + File.separator + filename;
-
         storageService.store(file, filename);
 
-        user.setImageUrl(fullPath);
-        userService.updateUser(login, fullPath);
+        // update user
+        user.setImageUrl(filename);
+        userService.updateUser(login, filename);
 
-        return fullPath;
+        return filename;
     }
 
     /**
