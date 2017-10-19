@@ -74,20 +74,13 @@ public class UserResource {
 
     private final StorageService storageService;
 
-    private final StorageProperties storageProperties;
-
-    private final HttpServletRequest request;
 
     public UserResource(UserRepository userRepository, MailService mailService,
-                        UserService userService, StorageService storageService,
-                        StorageProperties storageProperties, HttpServletRequest request) {
-
+                        UserService userService, StorageService storageService) {
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.userService = userService;
         this.storageService = storageService;
-        this.storageProperties = storageProperties;
-        this.request = request;
     }
 
     /**
