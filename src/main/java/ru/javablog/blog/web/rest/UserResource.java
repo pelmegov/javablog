@@ -22,12 +22,10 @@ import ru.javablog.blog.service.MailService;
 import ru.javablog.blog.service.UserService;
 import ru.javablog.blog.service.dto.UserDTO;
 import ru.javablog.blog.service.upload.inter.StorageService;
-import ru.javablog.blog.service.upload.properties.StorageProperties;
 import ru.javablog.blog.web.rest.util.HeaderUtil;
 import ru.javablog.blog.web.rest.util.PaginationUtil;
 import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
