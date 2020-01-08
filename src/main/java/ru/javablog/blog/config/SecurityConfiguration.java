@@ -20,8 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.PostConstruct;
 
@@ -39,8 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService,
-            TokenProvider tokenProvider,
-        CorsFilter corsFilter) {
+            TokenProvider tokenProvider, CorsFilter corsFilter) {
 
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDetailsService = userDetailsService;
@@ -103,12 +102,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/api/profile-info").permitAll()
-            .antMatchers("/api/**").authenticated()
+            .antMatchers("/api/**").permitAll()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/images/**").permitAll()
         .and()
             .apply(securityConfigurerAdapter());
 

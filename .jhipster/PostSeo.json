@@ -1,0 +1,19 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "keywords",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170922205253",
+    "entityTableName": "post_seo",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

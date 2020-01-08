@@ -1,0 +1,27 @@
+{
+    "javablogApp": {
+        "post" : {
+            "home": {
+                "title": "Posts",
+                "createLabel": "Создать новый Post",
+                "createOrEditLabel": "Создать или отредактировать Post"
+            },
+            "created": "Новый Post создан с идентификатором {{ param }}",
+            "updated": "Post обновлен с идентификатором {{ param }}",
+            "deleted": "Post удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Post {{ id }}?"
+            },
+            "detail": {
+                "title": "Post"
+            },
+            "title": "Title",
+            "message": "Message",
+            "image": "Image",
+            "postSeo": "Post Seo",
+            "comment": "Comment",
+            "author": "Author",
+            "tag": "Tag"
+        }
+    }
+}

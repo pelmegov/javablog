@@ -1,19 +1,8 @@
 package ru.javablog.blog.web.rest;
 
-import ru.javablog.blog.config.Constants;
 import com.codahale.metrics.annotation.Timed;
-import ru.javablog.blog.domain.User;
-import ru.javablog.blog.repository.UserRepository;
-import ru.javablog.blog.security.AuthoritiesConstants;
-import ru.javablog.blog.service.MailService;
-import ru.javablog.blog.service.UserService;
-import ru.javablog.blog.service.dto.UserDTO;
-import ru.javablog.blog.web.rest.vm.ManagedUserVM;
-import ru.javablog.blog.web.rest.util.HeaderUtil;
-import ru.javablog.blog.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -23,11 +12,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.javablog.blog.config.Constants;
+import ru.javablog.blog.domain.User;
+import ru.javablog.blog.repository.UserRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.security.SecurityUtils;
+import ru.javablog.blog.service.MailService;
+import ru.javablog.blog.service.UserService;
+import ru.javablog.blog.service.dto.UserDTO;
+import ru.javablog.blog.service.upload.inter.StorageService;
+import ru.javablog.blog.web.rest.util.HeaderUtil;
+import ru.javablog.blog.web.rest.util.PaginationUtil;
+import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing users.
@@ -67,12 +70,15 @@ public class UserResource {
 
     private final UserService userService;
 
-    public UserResource(UserRepository userRepository, MailService mailService,
-            UserService userService) {
+    private final StorageService storageService;
 
+
+    public UserResource(UserRepository userRepository, MailService mailService,
+                        UserService userService, StorageService storageService) {
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.userService = userService;
+        this.storageService = storageService;
     }
 
     /**
@@ -96,12 +102,12 @@ public class UserResource {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new user cannot already have an ID"))
                 .body(null);
-        // Lowercase the user login before comparing with database
+            // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
                 .body(null);
-        } else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {
+        } else if (userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
                 .body(null);
@@ -109,9 +115,35 @@ public class UserResource {
             User newUser = userService.createUser(managedUserVM);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
+    }
+
+    /**
+     * POST /users/photoUpload : upload user image photo
+     *
+     * @param file image user photo to upload
+     * @return url of the uploaded photo
+     */
+    @PostMapping("/users/photoUpload")
+    @Timed
+    public String uploadPhoto(@RequestParam("file") MultipartFile file) {
+        log.debug("REST request to upload photo : {}", file);
+
+        // get user login and user
+        String login = SecurityUtils.getCurrentUserLogin();
+        User user = userService.getUserByLogin(login);
+
+        // storing file
+        String filename = login + "." + file.getOriginalFilename().split("\\.")[1];
+        storageService.store(file, filename);
+
+        // update user
+        user.setImageUrl(filename);
+        userService.updateUser(login, filename);
+
+        return filename;
     }
 
     /**
@@ -127,7 +159,7 @@ public class UserResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
         log.debug("REST request to update User : {}", managedUserVM);
-        Optional<User> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use")).body(null);
         }
@@ -192,6 +224,6 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
     }
 }

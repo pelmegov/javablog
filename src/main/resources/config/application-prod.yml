@@ -41,6 +41,10 @@ spring:
         password:
     thymeleaf:
         cache: true
+    http:
+        multipart:
+            max-file-size: 10mb
+            max-request-size: 10MB
 
 liquibase:
     contexts: prod
@@ -113,6 +117,7 @@ jhipster:
             host: localhost
             port: 5000
             queue-size: 512
+
 
 # ===================================================================
 # Application specific properties

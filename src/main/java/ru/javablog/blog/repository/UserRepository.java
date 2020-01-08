@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByResetKey(String resetKey);
 
-    Optional<User> findOneByEmail(String email);
+    Optional<User> findOneByEmailIgnoreCase(String email);
 
     Optional<User> findOneByLogin(String login);
 
@@ -35,4 +35,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesByLogin(String login);
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
+
+    User findUserByLogin(String login);
 }

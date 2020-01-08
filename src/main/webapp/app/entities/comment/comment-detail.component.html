@@ -1,0 +1,35 @@
+
+<div *ngIf="comment">
+    <h2><span jhiTranslate="javablogApp.comment.detail.title">Comment</span> {{comment.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="javablogApp.comment.message">Message</span></dt>
+        <dd>
+            <span>{{comment.message}}</span>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.comment.author">Author</span></dt>
+        <dd>
+            {{comment.author?.login}}
+        </dd>
+        <dt><span jhiTranslate="javablogApp.comment.post">Post</span></dt>
+        <dd>
+            <div *ngIf="comment.post">
+                <a [routerLink]="['/post', comment.post?.id]">{{comment.post?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
+            [routerLink]="['/', { outlets: { popup: 'comment/'+ comment.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -7,6 +7,10 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Сущности",
+                "post": "Post",
+                "postSeo": "Post Seo",
+                "comment": "Comment",
+                "tag": "Tag",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -128,5 +132,5 @@
         "emailexists": "Эл. почта уже используется!!",
         "idexists": "Новый {{entityName}} не может иметь данный ID"
     },
-    "footer": "Это ваш футтер"
+    "footer": "Все права защищены. Копирование информации разрешено только с разрешения автора &copy; JavaBlog 2017"
 }

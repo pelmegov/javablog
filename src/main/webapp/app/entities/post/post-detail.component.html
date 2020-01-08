@@ -1,0 +1,51 @@
+
+<div *ngIf="post">
+    <h2><span jhiTranslate="javablogApp.post.detail.title">Post</span> {{post.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="javablogApp.post.title">Title</span></dt>
+        <dd>
+            <span>{{post.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.post.message">Message</span></dt>
+        <dd>
+            <span>{{post.message}}</span>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.post.image">Image</span></dt>
+        <dd>
+            <span>{{post.image}}</span>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.post.postSeo">Post Seo</span></dt>
+        <dd>
+            <div *ngIf="post.postSeo">
+                <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.description}}</a>
+                <br>
+                <a [routerLink]="['../post-seo', post.postSeo?.id ]" >{{post.postSeo?.keywords}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="javablogApp.post.author">Author</span></dt>
+        <dd>
+            {{post.author?.login}}
+        </dd>
+        <dt><span jhiTranslate="javablogApp.post.tag">Tag</span></dt>
+        <dd>
+            <span *ngFor="let tag of post.tags; let last = last">
+                <a [routerLink]="['/tag', tag?.id ]">{{tag.title}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
+            [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

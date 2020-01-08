@@ -1,16 +1,5 @@
 package ru.javablog.blog.web.rest;
 
-import ru.javablog.blog.JavablogApp;
-import ru.javablog.blog.domain.Authority;
-import ru.javablog.blog.domain.User;
-import ru.javablog.blog.repository.UserRepository;
-import ru.javablog.blog.security.AuthoritiesConstants;
-import ru.javablog.blog.service.MailService;
-import ru.javablog.blog.service.UserService;
-import ru.javablog.blog.service.dto.UserDTO;
-import ru.javablog.blog.service.mapper.UserMapper;
-import ru.javablog.blog.web.rest.errors.ExceptionTranslator;
-import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +14,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javablog.blog.JavablogApp;
+import ru.javablog.blog.domain.Authority;
+import ru.javablog.blog.domain.User;
+import ru.javablog.blog.repository.UserRepository;
+import ru.javablog.blog.security.AuthoritiesConstants;
+import ru.javablog.blog.service.MailService;
+import ru.javablog.blog.service.UserService;
+import ru.javablog.blog.service.dto.UserDTO;
+import ru.javablog.blog.service.mapper.UserMapper;
+import ru.javablog.blog.service.upload.inter.StorageService;
+import ru.javablog.blog.web.rest.errors.ExceptionTranslator;
+import ru.javablog.blog.web.rest.vm.ManagedUserVM;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,8 +36,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -86,6 +86,9 @@ public class UserResourceIntTest {
     private UserMapper userMapper;
 
     @Autowired
+    private StorageService storageService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -104,7 +107,7 @@ public class UserResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        UserResource userResource = new UserResource(userRepository, mailService, userService);
+        UserResource userResource = new UserResource(userRepository, mailService, userService, storageService);
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -114,7 +117,7 @@ public class UserResourceIntTest {
 
     /**
      * Create a User.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which has a required relationship to the User entity.
      */

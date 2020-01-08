@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 import { JavablogSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
+import { TagComponent } from '../entities/tag/tag.component';
+import { FrontPostComponent } from '../entities/post/front/front-post.component';
+import { SideBarComponent } from '../home/side-bar/side-bar.component';
 
 @NgModule({
     imports: [
@@ -12,10 +15,13 @@ import { HOME_ROUTE, HomeComponent } from './';
     ],
     declarations: [
         HomeComponent,
+        FrontPostComponent,
+        SideBarComponent,
     ],
     entryComponents: [
     ],
     providers: [
+        TagComponent,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
